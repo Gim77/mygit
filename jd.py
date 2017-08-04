@@ -67,10 +67,12 @@ n = 0
 for id in ids:
     driver.get('http://try.jd.com/migrate/getActivityById?id={}'.format(id))
     isApply = re.findall(r'"submit"\:([a-z]+)\,', driver.page_source)
-    if isApply[0] == 'false':
-        n += 1
-        print(id, n)
-        driver.get('http://try.jd.com/migrate/apply?activityId={}&source=0'.format(id))
-        time.sleep(10)
-
+    try:
+        if isApply[0] == 'false':
+            n += 1
+            print(id, n)
+            driver.get('http://try.jd.com/migrate/apply?activityId={}&source=0'.format(id))
+            time.sleep(10)
+    except Exception:
+        pass
 driver.quit()
